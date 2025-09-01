@@ -90,4 +90,43 @@ WHERE (
     WHERE b.user_id = u.user_id
 ) > 3;
 ```
-📌 This retrieves all users who have made more than 3 bookings.
+- 📌 This retrieves all users who have made more than 3 bookings.
+
+---
+
+# SQL Aggregations and Window Functions
+
+This task focuses on applying **SQL aggregation** and **window functions** for deeper data analysis.
+
+## Queries Implemented
+
+### 1. Query to find the total number of bookings made by each user, using the COUNT function and GROUP BY clause.
+```sql
+SELECT 
+    u.id AS user_id,
+    u.name AS user_name,
+    COUNT(b.id) AS total_bookings
+FROM users u
+LEFT JOIN bookings b ON u.id = b.user_id
+GROUP BY u.id, u.name
+ORDER BY total_bookings DESC;
+```
+- 📌 Uses COUNT() and GROUP BY to calculate the number of bookings per user.
+- 📌 Includes users with zero bookings using a LEFT JOIN.
+
+### 2. Using window functions (ROW_NUMBER, RANK) to rank properties based on the total number of bookings they have received
+```sql
+SELECT 
+    p.id AS property_id,
+    p.name AS property_name,
+    COUNT(b.id) AS total_bookings,
+    ROW_NUMBER() OVER (ORDER BY COUNT(b.id) DESC) AS row_num_rank,
+    RANK() OVER (ORDER BY COUNT(b.id) DESC) AS booking_rank
+FROM properties p
+LEFT JOIN bookings b ON p.id = b.property_id
+GROUP BY p.id, p.name
+ORDER BY booking_rank;
+```
+- 📌 Uses RANK() and ROW_NUMBER() as a window function to assign rankings based on total bookings.
+- 📌 Properties with equal bookings receive the same rank.
+- 📌 Results are ordered by booking rank.
