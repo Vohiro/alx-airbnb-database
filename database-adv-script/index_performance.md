@@ -28,8 +28,8 @@ GROUP BY u.id, u.name
 ORDER BY total_bookings DESC;
 ```
 - Results
-    📌 Before indexes: Full table scan on bookings and users. Execution time ≈ 1200ms (on test dataset of ~1M rows).
-    📌 After indexes: Query planner used idx_bookings_user_id. Execution time ≈ 80ms.
+    - 📌 **Before indexes:** Full table scan on bookings and users. Execution time ≈ 1200ms (on test dataset of ~1M rows).
+    - 📌 **After indexes:** Query planner used idx_bookings_user_id. Execution time ≈ 80ms.
 
 ## 4. Conclusion
 - Indexes significantly reduce query execution time for large datasets.
